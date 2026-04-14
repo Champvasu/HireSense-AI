@@ -46,8 +46,10 @@ export async function POST(req) {
     }
 
     // Create new user
+    const username = email.split('@')[0] + Math.random().toString(36).substring(2, 6);
     const userData = {
       name: name.trim(),
+      username: username,
       email: email.toLowerCase().trim(),
       password,
       role,
@@ -79,11 +81,12 @@ export async function POST(req) {
     }, { status: 201 }));
 
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Signup error:', error.message);
+    console.error('Signup error stack:', error.stack);
     return applySecurityHeaders(NextResponse.json({
       success: false,
       error: 'Failed to create account',
-      ...(process.env.NODE_ENV === 'development' ? { details: error.message } : {}),
+      details: error.message,
     }, { status: 500 }));
   }
 }
