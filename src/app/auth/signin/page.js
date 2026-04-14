@@ -172,6 +172,10 @@ export default function SignIn() {
       setError('Please enter your full name');
       return;
     }
+    if (signupData.name.trim().length < 2) {
+      setError('Name must be at least 2 characters');
+      return;
+    }
     if (signupData.password.length < 8) {
       setError('Password must be at least 8 characters');
       return;
@@ -220,7 +224,13 @@ export default function SignIn() {
           window.location.href = '/';
         }
       } else {
-        setError(data.error || 'Failed to create account');
+        // Show specific validation errors
+        if (data.details && data.details.length > 0) {
+          const errorMessages = data.details.map(err => err.message).join(', ');
+          setError(errorMessages);
+        } else {
+          setError(data.error || 'Failed to create account');
+        }
         setLoading(false);
       }
     } catch (err) {

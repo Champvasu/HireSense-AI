@@ -240,11 +240,14 @@ async function seedDatabase() {
       const lastName = randomItem(lastNames);
       const email = generateEmail(firstName, lastName);
       
+      const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}${i}`;
       const user = new User({
         name: `${firstName} ${lastName}`,
+        username: username,
         email: email,
         image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}${lastName}${i}`,
-        role: 'student'
+        role: 'student',
+        provider: 'google'
       });
       
       await user.save();
@@ -259,11 +262,14 @@ async function seedDatabase() {
       const company = randomItem(companyNames);
       const email = generateCompanyEmail(firstName, lastName, company);
       
+      const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}${i+25}`;
       const user = new User({
         name: `${firstName} ${lastName}`,
+        username: username,
         email: email,
         image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}${lastName}${i+25}`,
-        role: 'company'
+        role: 'company',
+        provider: 'google'
       });
       
       await user.save();
@@ -278,11 +284,14 @@ async function seedDatabase() {
       const lastName = randomItem(lastNames);
       const email = generateEmail(firstName, lastName);
       
+      const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}${i+37}`;
       const user = new User({
         name: `${firstName} ${lastName}`,
+        username: username,
         email: email,
         image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${firstName}${lastName}${i+37}`,
-        role: 'admin'
+        role: 'admin',
+        provider: 'google'
       });
       
       await user.save();
