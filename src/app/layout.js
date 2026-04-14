@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import AuthProvider from "@/components/AuthProvider";
-import Navbar from "@/components/Navbar";
+import { Providers } from "./providers";
 import { validateEnvironmentOrThrow } from "@/lib/config/envValidation";
 
 const inter = Inter({
@@ -30,12 +29,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased bg-[#F5F6FA] text-[#1A1A2E]`} suppressHydrationWarning>
-        <AuthProvider>
-          <Navbar />
-          <main className="pt-20">
-            {children}
-          </main>
-        </AuthProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
