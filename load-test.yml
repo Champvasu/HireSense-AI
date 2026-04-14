@@ -1,0 +1,48 @@
+# Load Testing Configuration - Artillery
+# Run: npm install -g artillery && artillery run load-test.yml
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      name: "Warm up"
+    - duration: 120
+      arrivalRate: 50
+      name: "Ramp up"
+    - duration: 300
+      arrivalRate: 100
+      name: "Sustained load"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Browse Internships"
+    weight: 40
+    requests:
+      - get:
+          url: "/internships"
+  
+  - name: "View Internship Detail"
+    weight: 30
+    requests:
+      - get:
+          url: "/api/internships"
+          capture:
+            - json: "$[0]._id"
+              as: "internshipId"
+      - get:
+          url: "/internships/{{ internshipId }}"
+  
+  - name: "Health Check"
+    weight: 20
+    requests:
+      - get:
+          url: "/api/health"
+  
+  - name: "Auth Check"
+    weight: 10
+    requests:
+      - get:
+          url: "/api/auth/session"
